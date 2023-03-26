@@ -2,39 +2,31 @@
   (:require
    [town.lilac.flex :as flex]
    [town.lilac.dom :as dom])
-  (:require-macros [town.lilac.flex.dom :refer [track]]))
-
-(defrecord Root [el ^:mutable current fx]
-  IFn
-  (-invoke [_]
-    (when current
-      (current))
-    ;; start
-    (set! current (fx))))
-
+  (:require-macros [town.lilac.flex.dom :refer [scope]]))
 
 (defn create-root
-     "Creates a DOM effect root, which when called like a function will start
-  the app function `f` in the container element `el`.
-
-  Subsequent calls will restart it, re-rendering the entire app."
-     [el f]
-     (let [fx (flex/effect
-               []
-               (dom/patch el f))]
-       (->Root el (fx) fx)))
-
+  "Returns a root DOM effect which will render the app function `f` inside of
+  DOM node `el`. `town.lilac.flex/dispose!` and `town.lilac.flex/run!` can be
+  used to stop and start it."
+  [el f]
+  (flex/effect [] (dom/patch el f)))
 
 (comment
-  (def counter (flex/source 0))
+  (def counter
+    (flex/source 0))
+
+  (defn app
+    []
+    (dom/div
+     (scope (dom/text @counter))
+     (dom/button {:onclick #(counter inc)}
+                 (dom/text "+"))))
 
   (def root
-    (create-root
-     (js/document.getElementById "app")
-     (fn []
-       (dom/div
-        (dom/text @counter)))))
+    (create-root (js/document.getElementById "app") app))
 
-  (root)
+  ;; restart e.g. on hot reload
+  (flex/dispose! root)
+  (flex/run! root)
 
   (counter inc))
