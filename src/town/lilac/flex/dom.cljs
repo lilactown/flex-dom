@@ -19,8 +19,9 @@
     []
     (dom/div
      (scope (dom/text @counter))
-     (dom/button {:onclick #(counter inc)}
-                 (dom/text "+"))))
+     (dom/button
+      {:onclick #(counter inc)}
+      (dom/text "+"))))
 
   (def root
     (create-root (js/document.getElementById "app") app))
@@ -29,4 +30,6 @@
   (flex/dispose! root)
   (flex/run! root)
 
-  (counter inc))
+  (counter inc)
+
+  (counter 0))
