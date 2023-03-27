@@ -33,10 +33,10 @@ town.lilac/flex-dom {:git/url "https://github.com/lilactown/flex-dom"
     {:onclick #(counter inc)} ; increment the counter on click
     (dom/text "+"))))
 
-(def root
+(defonce root
   (flex.dom/create-root
    (js/document.getElementById "app")
-   app))
+   #(app)))
 
 (defn ^:dev/after-load start!
   []
