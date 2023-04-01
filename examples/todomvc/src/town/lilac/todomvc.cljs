@@ -77,7 +77,7 @@
   []
   (dom/section
    {:class "todoapp"}
-   (if (doto @(:loading? initial-todos) prn)
+   (if @(:loading? initial-todos)
      (dom/header
       {:class "header"}
       (dom/h1 (dom/text "todos"))
