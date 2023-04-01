@@ -8,7 +8,7 @@ Install via git deps
 
 ```clojure
 town.lilac/flex-dom {:git/url "https://github.com/lilactown/flex-dom"
-                     :git/sha "c48316b1c07da18d2d3c459a606bb13350c88d00"}
+                     :git/sha "e880c78d1d755bc19f6f54fd0bfc4f6fdc6f9a0d"}
 ```
 
 ## Usage
@@ -16,9 +16,8 @@ town.lilac/flex-dom {:git/url "https://github.com/lilactown/flex-dom"
 ```clojure
 (ns my-app.main
   (:require
-   [town.lilac.dom :as dom]
    [town.lilac.flex :as flex]
-   [town.lilac.flex.dom :as flex.dom]))
+   [town.lilac.flex.dom :as dom]))
 
 (def counter
   (flex/source 0))
@@ -26,9 +25,8 @@ town.lilac/flex-dom {:git/url "https://github.com/lilactown/flex-dom"
 (defn app
   []
   (dom/div
-   ;; scope updates triggered by `counter` to only this text node
-   (flex.dom/scope
-    (dom/text @counter))
+   ;; updates triggered by `counter` are automatically scoped to only this text node
+   (dom/text @counter)
    (dom/button
     {:onclick #(counter inc)} ; increment the counter on click
     (dom/text "+"))))
