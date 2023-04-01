@@ -67,7 +67,6 @@
                              :title "Dishes"
                              :completed? false}])
         list-filter (flex/source :all)]
-    (prn :app)
     (dom/section
      {:class "todoapp"}
      (dom/header
@@ -160,9 +159,9 @@
 (defonce root
   (dom/create-root
    (js/document.getElementById "root")
-   #(do (prn :root) (#'app))))
+   #(app)))
 
-(defn ^:dev/before-load start!
+(defn ^:dev/after-load start!
   []
   (flex/dispose! root)
   (flex/run! root))
